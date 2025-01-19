@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course Average Calculator</title>
+  </head>
+  <body>
+    <script>
+      function calculateAverage() {
+        let numOfCourses = prompt("How many courses did you finish?", "0");
+
+        // Convert the input to a number
+        numOfCourses = parseInt(numOfCourses);
+
+        // Check if the input is invalid
+        if (isNaN(numOfCourses) || numOfCourses <= 0) {
+          document.write("<p>Invalid Input!</p>");
+          return;
+        }
+
+        // Initialize an array to store course marks
+        let courseMarks = [];
+        let total = 0;
+
+        for (let i = 1; i <= numOfCourses; i++) {
+          let mark = prompt(
+            `Enter your mark for course ${i} (e.g., A, 8.5, or 85):`,
+            "0"
+          );
+
+          // Convert letter grades or decimal grades to a numeric scale (0-100)
+          let numericMark = convertGradeToPercentage(mark);
+
+          if (numericMark === null || numericMark < 0 || numericMark > 100) {
+            document.write(
+              "<p>Invalid grade entered! Please enter a letter grade (A-F), a decimal (e.g., 8.5), or a percentage (0-100).</p>"
+            );
+            return;
+          }
+
+          courseMarks.push(numericMark);
+          total += numericMark;
+        }
+
+        // Calculate the average
+        let average = total / numOfCourses;
+        average = parseFloat(average.toFixed(2)); // Round to 2 decimal points
+
+        document.write("<h3>Course Marks:</h3><ul>");
+        for (let i = 0; i < courseMarks.length; i++) {
+          document.write(`<li>Course ${i + 1}: ${courseMarks[i]}</li>`);
+        }
+        document.write("</ul>");
+
+        // Determine and display the grade
+        document.write(`<h3>Average: ${average}</h3>`);
+
+        if (average >= 90 && average <= 100) {
+          document.write("<p>Your grade is A+</p>");
+        } else if (average >= 80 && average < 90) {
+          document.write("<p>Your grade is B</p>");
+        } else if (average >= 70 && average < 80) {
+          document.write("<p>Your grade is C</p>");
+        } else if (average >= 60 && average < 70) {
+          document.write("<p>Your grade is D</p>");
+        } else if (average < 60) {
+          document.write("<p>Your grade is F</p>");
+        } else {
+          document.write("<p>Sorry, all marks must be between 0 and 100!</p>");
+        }
+      }
+
+      // Helper function to convert grades to a numeric percentage scale
+      function convertGradeToPercentage(grade) {
+        // If the grade is already a number, parse it
+        let numericGrade = parseFloat(grade);
+        if (!isNaN(numericGrade)) {
+          // If it's a decimal grade (e.g., 9.0, 8.5), convert directly to percentage (e.g., 9.0 -> 90)
+          if (numericGrade <= 10) {
+            return numericGrade * 10;
+          }
+          // If it's already a percentage (e.g., 85), return it as is
+          return numericGrade;
+        }
+
+        // Handle letter grades
+        switch (grade.toUpperCase()) {
+          case "A+":
+            return 95;
+          case "A":
+            return 90;
+          case "A-":
+            return 85;
+          case "B+":
+            return 80;
+          case "B":
+            return 75;
+          case "B-":
+            return 70;
+          case "C+":
+            return 65;
+          case "C":
+            return 60;
+          case "C-":
+            return 55;
+          case "D+":
+            return 50;
+          case "D":
+            return 45;
+          case "F":
+            return 0;
+          default:
+            return null; // Invalid input
+        }
+      }
+
+      // Call the function to execute the program
+      calculateAverage();
+    </script>
+  </body>
+</html>
